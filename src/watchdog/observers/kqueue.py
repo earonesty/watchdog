@@ -605,8 +605,7 @@ class KqueueEmitter(EventEmitter):
             # the event represents deletion/creation instead of movement.
             return
 
-        dest_path = new_snapshot.path(f_inode)
-        if dest_path is not None:
+        if (dest_path := new_snapshot.path(f_inode)) is not None:
             dest_path = absolute_path(dest_path)
             if is_directory:
                 event = DirMovedEvent(src_path, dest_path)

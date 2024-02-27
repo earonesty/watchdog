@@ -24,8 +24,7 @@ def _match_path(path, included_patterns, excluded_patterns, case_sensitive):
         excluded_patterns = {pattern.lower() for pattern in excluded_patterns}
         path = PureWindowsPath(path)
 
-    common_patterns = included_patterns & excluded_patterns
-    if common_patterns:
+    if common_patterns := included_patterns & excluded_patterns:
         raise ValueError('conflicting patterns `{}` included and excluded'.format(common_patterns))
     return (any(path.match(p) for p in included_patterns)
             and not any(path.match(p) for p in excluded_patterns))

@@ -191,8 +191,7 @@ class FSEventsEmitter(EventEmitter):
         self._fsevents.stop()
 
     def queue_events(self, timeout):
-        events = self._fsevents.read_events()
-        if events is None:
+        if (events := self._fsevents.read_events()) is None:
             return
         i = 0
         while i < len(events):

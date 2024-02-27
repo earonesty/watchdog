@@ -124,8 +124,7 @@ class InotifyEmitter(EventEmitter):
         # If "full_events" is true, then the method will report unmatched move events as separate events
         # This behavior is by default only called by a InotifyFullEmitter
         with self._lock:
-            event = self._inotify.read_event()
-            if event is None:
+            if (event := self._inotify.read_event()) is None:
                 return
             if isinstance(event, tuple):
                 move_from, move_to = event

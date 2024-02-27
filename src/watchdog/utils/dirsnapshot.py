@@ -100,16 +100,14 @@ class DirectorySnapshotDiff:
         moved = set()
         for path in set(deleted):
             inode = ref.inode(path)
-            new_path = snapshot.path(inode)
-            if new_path:
+            if new_path := snapshot.path(inode):
                 # file is not deleted but moved
                 deleted.remove(path)
                 moved.add((path, new_path))
 
         for path in set(created):
             inode = snapshot.inode(path)
-            old_path = ref.path(inode)
-            if old_path:
+            if old_path := ref.path(inode):
                 created.remove(path)
                 moved.add((old_path, path))
 

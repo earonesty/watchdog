@@ -181,8 +181,7 @@ class Inotify:
 
     def __init__(self, path, recursive=False, event_mask=WATCHDOG_ALL_EVENTS):
         # The file descriptor associated with the inotify instance.
-        inotify_fd = inotify_init()
-        if inotify_fd == -1:
+        if (inotify_fd := inotify_init()) == -1:
             Inotify._raise_error()
         self._inotify_fd = inotify_fd
         self._lock = threading.Lock()
@@ -404,8 +403,7 @@ class Inotify:
         :param mask:
             Event bit mask.
         """
-        wd = inotify_add_watch(self._inotify_fd, path, mask)
-        if wd == -1:
+        if (wd := inotify_add_watch(self._inotify_fd, path, mask)) == -1:
             Inotify._raise_error()
         self._wd_for_path[path] = wd
         self._path_for_wd[wd] = path
@@ -416,8 +414,7 @@ class Inotify:
         """
         Raises errors for inotify failures.
         """
-        err = ctypes.get_errno()
-        if err == errno.ENOSPC:
+        if (err := ctypes.get_errno()) == errno.ENOSPC:
             raise OSError(errno.ENOSPC, "inotify watch limit reached")
         elif err == errno.EMFILE:
             raise OSError(errno.EMFILE, "inotify instance limit reached")

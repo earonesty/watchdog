@@ -96,7 +96,6 @@ class SkipRepeatsQueue(queue.Queue):
             self.unfinished_tasks -= 1
 
     def _get(self):
-        item = super()._get()
-        if item is self._last_item:
+        if (item := super()._get()) is self._last_item:
             self._last_item = None
         return item

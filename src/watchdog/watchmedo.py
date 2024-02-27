@@ -87,8 +87,7 @@ def parse_patterns(patterns_spec, ignore_patterns_spec, separator=';'):
     (patterns, ignore_patterns).
     """
     patterns = patterns_spec.split(separator)
-    ignore_patterns = ignore_patterns_spec.split(separator)
-    if ignore_patterns == ['']:
+    if (ignore_patterns := ignore_patterns_spec.split(separator)) == ['']:
         ignore_patterns = []
     return (patterns, ignore_patterns)
 
