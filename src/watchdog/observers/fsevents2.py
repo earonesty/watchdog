@@ -124,7 +124,7 @@ class FSEventsQueue(Thread):
     def _callback(self, streamRef, clientCallBackInfo, numEvents, eventPaths, eventFlags, eventIDs):
         events = [NativeEvent(path, flags, _id) for path, flags, _id in
                   zip(eventPaths, eventFlags, eventIDs)]
-        logger.debug("FSEvents callback. Got %d events:" % numEvents)
+        logger.debug("FSEvents callback. Got %d events:", numEvents)
         for e in events:
             logger.debug(e)
         self._queue.put(events)
