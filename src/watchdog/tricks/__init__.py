@@ -142,7 +142,7 @@ class ShellCommandTrick(Trick):
             command = self.shell_command
 
         command = Template(command).safe_substitute(**context)
-        self.process = subprocess.Popen(command, shell=True)
+        self.process = subprocess.Popen(command, shell=False)
         if self.wait_for_process:
             self.process.wait()
 
