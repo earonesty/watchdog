@@ -48,6 +48,7 @@ import time
 
 from watchdog.utils import echo
 from watchdog.events import PatternMatchingEventHandler
+from security import safe_command
 
 
 class Trick(PatternMatchingEventHandler):
@@ -142,7 +143,7 @@ class ShellCommandTrick(Trick):
             command = self.shell_command
 
         command = Template(command).safe_substitute(**context)
-        self.process = subprocess.Popen(command, shell=True)
+        self.process = safe_command.run(subprocess.Popen, command, shell=True)
         if self.wait_for_process:
             self.process.wait()
 
@@ -170,7 +171,7 @@ class AutoRestartTrick(Trick):
         self.process = None
 
     def start(self):
-        self.process = subprocess.Popen(self.command, preexec_fn=os.setsid)
+        self.process = safe_command.run(subprocess.Popen, self.command, preexec_fn=os.setsid)
 
     def stop(self):
         if self.process is None:
